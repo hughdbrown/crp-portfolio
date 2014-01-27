@@ -1,0 +1,39 @@
+{
+  "name": "crp-portfolio",
+  "title": "CrowdProcess Portfolio Thing",
+  "description": "Let's find the portfolio with the lowest correlation",
+  "version": "0.0.1",
+  "author": {
+    "name": "João Jerónimo"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "undefined/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "src/program.js",
+  "engines": {
+    "node": {
+      "node": ">=0.10.x"
+    }
+  },
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-string-replace": "~0.2.4",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-contrib-jshint": "~0.4.3",
+    "grunt-browserify": "~0.2.3",
+    "grunt-contrib-watch": "~0.3.1",
+    "tape": "~0.3.3"
+  },
+  "dependencies": {
+    "async": "~0.2.10",
+    "moment": "~2.5.1",
+    "finance": "~2.0.0",
+    "crowdprocess": "~0.5.4"
+  }
+}
