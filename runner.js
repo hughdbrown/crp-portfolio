@@ -1,5 +1,10 @@
+require('nodetime').profile({
+  accountKey: '027126122fe011057baa383487e15e6f5ee911b3',
+  appName: 'crp-portfolio'
+});
+
 var fs = require('fs');
-var comboMaker = require('./combo-maker');
+var groupMaker = require('./combo-maker');
 var lzString = require('lz-string');
 var CrowdProcess = require('crowdprocess')({
   email: 'jj@crowdprocess.com',
@@ -9,8 +14,12 @@ var CrowdProcess = require('crowdprocess')({
 var program = fs.readFileSync('./build/program.min.js');
 //var program = require('./src/program');
 
-var n = 4000;
-var job = CrowdProcess({id: '42e04c6b-5ac0-4bb4-9689-f68e55047eaf'});
+var n = 40000;
+var job = CrowdProcess({
+  //program: program,
+  //mock: true,
+  id: 'e64a431a-e2a9-4ea3-92d1-5d0ee69886c8'
+});
 
 //var results = fs.createWriteStream('./results.txt');
 //job.pipe(results);
@@ -39,27 +48,7 @@ job.on('error', function (err) {
 
 var firstTime = true;
 var i = 0;
-//var times = 2000;
-comboMaker(n, onCombos);
-function onCombos (combos) {
-/*
-  if (i > times) {
-    return;
-  }
-*/
-  if (firstTime) {
-    var start = Date.now();
-    var dataunit = {
-      combos: lzString.compressToBase64(JSON.stringify(combos))
-    };
-    console.log('---local       Compressing dataunit: ', Date.now() - start);
 
-    fs.writeFileSync('./samples/input.json.lz', JSON.stringify(dataunit));
-    fs.writeFileSync('./samples/input.json', JSON.stringify(combos));
-    firstTime = false;
-  }
+var groupStream = groupMaker(n);
 
-  job.write({
-    combos: lzString.compressToBase64(JSON.stringify(combos))
-  });
-}
+groupStream.pipe(job);

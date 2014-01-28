@@ -2,7 +2,7 @@
 var returns = require('./src/returns.json');
 var stocks = Object.keys(returns);
 
-
+var lzString = require('lz-string');
 var Readable = require('stream').Readable;
 var Duplex = require('stream').Duplex;
 
@@ -15,7 +15,8 @@ function combinations3 (arr) {
   var r3 = 0;
 
   comboStream._read = function _read () {
-    comboStream.push([arr[r1], arr[r2], arr[r3]]);
+    var combo = [arr[r1], arr[r2], arr[r3]];
+    comboStream.push(combo);
     r3++;
     if (r3 === N) {
       r3 = 0;
@@ -33,52 +34,37 @@ function combinations3 (arr) {
   return comboStream;
 }
 
-/*
-
-
-function _combinations3 (arr, _yield) {
-  var N = arr.length;
-  var comb;
-  for (var r1 = 0; r1 < N; r1++) {
-    for (var r2 = 0; r2 < N; r2++) {
-      for (var r3 = 0; r3 < N; r3++) {
-        _yield([arr[r1], arr[r2], arr[r3]]);
+var i = 100;
+function groupMaker (comboSize) {
+  var comboStream = combinations3(stocks);
+  var groupStream = new Readable({
+    objectMode: true
+  });
+  groupStream._read = function _read () {
+    var n = comboSize;
+    var group = [];
+    while (n--) {
+      var combo = comboStream.read();
+      if (combo === null) {
+        break;
+      } else {
+        group.push(combo);
       }
     }
-  }
-}*/
 
-/*
-function groupMaker (comboSize) {
-  var groupStream = new Duplex({objectMode: true});
+    process.nextTick(function () { // event loop keeps very busy because the next lines are too expensive;
+      groupStream.push({
+        combos: lzString.compressToBase64(JSON.stringify(group))
+      });
+    });
 
-  var group = [];
-  groupStream._write = function _write (chunk, enc, cb) {
-    group.push(chunk);
-    if (group.length >= comboSize) {
-      groupStream.push([].concat(group));
-      group.length = 0;
+    if (!(i--)) {
+      groupStream.push(null);
     }
-    cb();
   };
-
-  groupStream._read = function _read () {
-
-  };
-
-}*/
-
-function comboMaker (comboSize, onCombos) {
-  var combos = [];
-  var comboStream = combinations3(stocks);
-  comboStream.on('data', onCombo);
-  function onCombo (combo) {
-    combos.push(combo);
-    if (combos.length === comboSize) {
-      onCombos(combos.slice());
-      combos.length = 0;
-    }
-  }
+  return groupStream;
 }
 
-module.exports = comboMaker;
+
+
+module.exports = groupMaker;
