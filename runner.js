@@ -25,7 +25,6 @@ job.on('created', function (id) {
 
 var firstResult = true;
 job.on('data', function (d) {
-  console.log(((i++)*n)/20708500);
   if (firstResult) {
     fs.writeFileSync('./samples/result.json.lz', d);
     var start = Date.now();

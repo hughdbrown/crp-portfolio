@@ -32,8 +32,12 @@ function combinations3 (arr) {
   var r2 = 0;
   var r3 = 0;
 
+  setInterval(function () {
+    console.log(r1/N);
+  }, 500);
+
   comboStream._read = function _read () {
-    var combo = [arr[r1], arr[r2], arr[r3]];
+    var combo = [r1, r2, r3];
     comboStream.push(combo);
     r3++;
     if (r3 === N) {

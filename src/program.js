@@ -2,6 +2,8 @@ var returns = require('./returns.json');
 var corr3 = require('./corr3');
 var lzString = require('lz-string');
 
+var stocks = Object.keys(returns);
+
 function Run(combos) {
   //var start = Date.now();
   //var combos = JSON.parse(lzString.decompressFromBase64(data.combos));
@@ -14,9 +16,9 @@ function Run(combos) {
 
   while (n--) {
     combo = combos[n];
-    corrs[combo.join(',')] = corr3(returns[combo[0]],
-                                       returns[combo[1]],
-                                       returns[combo[2]]);
+    corrs[combo.join(',')] = corr3(returns[stocks[combo[0]]],
+                                       returns[stocks[combo[1]]],
+                                       returns[stocks[combo[2]]]);
   }
   //var two = Date.now() - start;
   //console.log('---worker      compute: ', two);
