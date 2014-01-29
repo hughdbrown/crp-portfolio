@@ -2,9 +2,9 @@ var returns = require('./returns.json');
 var corr3 = require('./corr3');
 var lzString = require('lz-string');
 
-function Run(data) {
+function Run(combos) {
   //var start = Date.now();
-  var combos = JSON.parse(lzString.decompressFromBase64(data.combos));
+  //var combos = JSON.parse(lzString.decompressFromBase64(data.combos));
   //var one = Date.now() - start;
   //console.log('---worker      decompress and parse: ', one);
   //start = Date.now();

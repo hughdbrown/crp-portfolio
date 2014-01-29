@@ -72,6 +72,7 @@ function groupMaker (comboSize) {
       }
     }
 
+
     var fork = compressionForkRR();
     fork.send(group);
     fork.once('message', function (m) {
