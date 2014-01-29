@@ -1,8 +1,3 @@
-require('nodetime').profile({
-  accountKey: '027126122fe011057baa383487e15e6f5ee911b3',
-  appName: 'crp-portfolio'
-});
-
 var fs = require('fs');
 var groupMaker = require('./combo-maker');
 var lzString = require('lz-string');
