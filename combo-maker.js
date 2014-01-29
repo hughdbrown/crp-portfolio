@@ -32,8 +32,12 @@ function combinations3 (arr) {
   var r2 = 0;
   var r3 = 0;
 
-  setInterval(function () {
-    console.log(r1/N);
+  var logInterval = setInterval(function () {
+    var progress = r1/N;
+    console.log(progress);
+    if (progress === 1) {
+      clearInterval(logInterval);
+    }
   }, 500);
 
   comboStream._read = function _read () {
