@@ -6,6 +6,24 @@ var lzString = require('lz-string');
 var Readable = require('stream').Readable;
 var Duplex = require('stream').Duplex;
 
+var os = require('os');
+var cp = require('child_process');
+
+function CompressionForkRoundRobin () {
+  var compressionForks = [];
+  for (var i = 0; i < os.cpus().length; i++) {
+    compressionForks.push(cp.fork(__dirname + '/compressor.js'));
+  }
+
+  var c;
+  return function pick () {
+    if (!c || !(c--)) {
+      c = compressionForks.length - 1;
+    }
+    return compressionForks[c];
+  };
+}
+
 function combinations3 (arr) {
   var comboStream = new Readable({objectMode: true});
 
@@ -34,12 +52,14 @@ function combinations3 (arr) {
   return comboStream;
 }
 
-var i = 100;
 function groupMaker (comboSize) {
   var comboStream = combinations3(stocks);
   var groupStream = new Readable({
     objectMode: true
   });
+
+  var compressionForkRR = CompressionForkRoundRobin();
+
   groupStream._read = function _read () {
     var n = comboSize;
     var group = [];
@@ -52,15 +72,11 @@ function groupMaker (comboSize) {
       }
     }
 
-    process.nextTick(function () { // event loop keeps very busy because the next lines are too expensive;
-      groupStream.push({
-        combos: lzString.compressToBase64(JSON.stringify(group))
-      });
+    var fork = compressionForkRR();
+    fork.send(group);
+    fork.once('message', function (m) {
+      groupStream.push(m);
     });
-
-    if (!(i--)) {
-      groupStream.push(null);
-    }
   };
   return groupStream;
 }

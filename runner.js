@@ -16,9 +16,9 @@ var program = fs.readFileSync('./build/program.min.js');
 
 var n = 40000;
 var job = CrowdProcess({
-  //program: program,
+  program: program,
   //mock: true,
-  id: 'e64a431a-e2a9-4ea3-92d1-5d0ee69886c8'
+  //id: 'fa8c20b7-1b56-4c32-9a9e-5f8fb8179e0f'
 });
 
 //var results = fs.createWriteStream('./results.txt');
