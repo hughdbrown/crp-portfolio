@@ -28,7 +28,9 @@
     "grunt-contrib-jshint": "~0.4.3",
     "grunt-browserify": "~0.2.3",
     "grunt-contrib-watch": "~0.3.1",
-    "tape": "~0.3.3"
+    "tape": "~0.3.3",
+    "readable-stream": "~1.1.10",
+    "brfs": "0.0.9"
   },
   "dependencies": {
     "async": "~0.2.10",

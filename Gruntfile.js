@@ -23,7 +23,10 @@ module.exports = function(grunt) {
       },
       webapp: {
         src: 'src/webapp.js',
-        dest: 'build/webapp.js'
+        dest: 'build/webapp.js',
+        options: {
+          transform: ['brfs']
+        }
       }
     },
     uglify: {
@@ -35,10 +38,14 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: ['src/**/*.js'],
-        tasks: ['jshint',
-                'browserify:production',
-                'browserify:debug',
-                 'uglify'],
+        tasks: ['default'],
+        options: {
+          nospawn: true
+        }
+      },
+      webapp: {
+        files: ['src/webapp.js'],
+        tasks: ['browserify:webapp'],
         options: {
           nospawn: true
         }
@@ -55,6 +62,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['jshint',
                                  'browserify:production',
+                                 'browserify:webapp',
                                  'uglify']);
 
   grunt.registerTask('debug', ['jshint',
