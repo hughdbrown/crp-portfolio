@@ -20,6 +20,10 @@ module.exports = function(grunt) {
           standalone: 'Run',
           debug: true
         }
+      },
+      webapp: {
+        src: 'src/webapp.js',
+        dest: 'build/webapp.js'
       }
     },
     uglify: {

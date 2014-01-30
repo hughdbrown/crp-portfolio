@@ -79,7 +79,10 @@ function groupMaker (comboSize) {
         group.push(combo);
       }
     }
-
+    if (group.length === 0) {
+      groupStream.push(null);
+      return;
+    }
 
     var fork = compressionForkRR();
     fork.send(group);
@@ -87,6 +90,7 @@ function groupMaker (comboSize) {
       groupStream.push(m);
     });
   };
+
   return groupStream;
 }
 
