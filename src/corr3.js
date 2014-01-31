@@ -58,7 +58,7 @@ function CORR3 (X, Y, Z) {
   var stdevY = stdev(Y);
   var stdevZ = stdev(Z);
   var COVARXYZ = COVAR3(X, Y, Z);
-  return COVARXYZ / (stdevX*stdevY*stdevZ);
+  return COVARXYZ / stdevX*stdevY*stdevZ;
 }
 
 module.exports = CORR3;
