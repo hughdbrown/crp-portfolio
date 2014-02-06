@@ -22,7 +22,7 @@ module.exports = function(grunt) {
         }
       },
       webapp: {
-        src: 'src/webapp.js',
+        src: 'src/runner.js',
         dest: 'build/webapp.js',
         options: {
           transform: ['brfs']

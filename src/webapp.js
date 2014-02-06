@@ -14,7 +14,7 @@ var program = fs.readFileSync('./build/program.min.js');
 
 var n = 40000;
 var job = CrowdProcess({
-  program: program,
+  program: program
   //mock: true,
   //id: '847615a2-f100-4d63-b11d-e92b7ada48db'
 });

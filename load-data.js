@@ -85,4 +85,5 @@ loadData(stocks, 180, onDataLoaded);
 
 function onDataLoaded () {
   fs.writeFileSync('./src/returns.json', JSON.stringify(returns));
+  fs.writeFileSync('./src/stocks.json', JSON.stringify(Object.keys(returns)));
 }
