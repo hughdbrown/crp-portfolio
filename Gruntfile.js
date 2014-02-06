@@ -20,13 +20,6 @@ module.exports = function(grunt) {
           standalone: 'Run',
           debug: true
         }
-      },
-      webapp: {
-        src: 'src/runner.js',
-        dest: 'build/webapp.js',
-        options: {
-          transform: ['brfs']
-        }
       }
     },
     uglify: {
@@ -42,13 +35,6 @@ module.exports = function(grunt) {
         options: {
           nospawn: true
         }
-      },
-      webapp: {
-        files: ['src/webapp.js'],
-        tasks: ['browserify:webapp'],
-        options: {
-          nospawn: true
-        }
       }
     }
   });
@@ -57,12 +43,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-string-replace');
 
 
   grunt.registerTask('default', ['jshint',
                                  'browserify:production',
-                                 'browserify:webapp',
                                  'uglify']);
 
   grunt.registerTask('debug', ['jshint',
